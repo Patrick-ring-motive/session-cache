@@ -12,7 +12,7 @@
       `https://cdn.jsdelivr.net/npm/pako/dist/pako.min.js?${new Date().getTime()}`,
     ),
     importScript(
-      `https://cdn.jsdelivr.net/npm/superjson-bundle/dist/superjson.js?${new Date().getTime()}`,
+      `https://cdn.jsdelivr.net/npm/superjson-bundle@1.0.7/dist/superjson.js?${new Date().getTime()}`,
     ),
   ]);
 
