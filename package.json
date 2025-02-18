@@ -1,20 +1,29 @@
 {
-  "name": "nodejs",
-  "version": "1.0.0",
+  "name": "session-cache",
+  "version": "1.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "standalone.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\""
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "superjson",
+    "bundle"
+  ],
+  "author": "Patrick Ring <patrick.ring.motive@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "@types/node": "^18.0.6",
+    "js-beautify": "^1.15.3",
+    "jsbeautify": "^0.3.6",
     "node-polyfill-webpack-plugin": "^4.1.0",
     "pako": "^2.1.0",
     "superjson": "^2.2.2",
     "webpack": "^5.98.0",
     "webpack-cli": "^6.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Patrick-ring-motive/session-cache.git"
   }
 }
