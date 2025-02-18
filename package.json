@@ -1,6 +1,6 @@
 {
   "name": "session-cache",
-  "version": "1.0.2",
+  "version": "1.0.1",
   "description": "",
   "main": "standalone.js",
   "scripts": {
@@ -13,7 +13,7 @@
   "author": "Patrick Ring <patrick.ring.motive@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "@types/node": "^16.20.2",
+    "@types/node": "^18.0.6",
     "js-beautify": "^1.15.3",
     "jsbeautify": "^0.3.6",
     "node-polyfill-webpack-plugin": "^4.1.0",
