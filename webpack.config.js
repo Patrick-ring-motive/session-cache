@@ -5,7 +5,7 @@ const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 module.exports = {
   entry: "./index.mjs", // entry point for your application
   output: {
-    filename: "superjson.js", // output bundle file
+    filename: "session-cache.js", // output bundle file
     path: path.resolve(__dirname, "dist"), // output path
     clean: true, // cleans old files in dist on rebuild
   },
