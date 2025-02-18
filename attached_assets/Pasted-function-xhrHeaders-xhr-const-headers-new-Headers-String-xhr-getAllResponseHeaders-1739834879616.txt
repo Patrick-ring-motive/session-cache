@@ -1,0 +1,65 @@
+function xhrHeaders(xhr) {
+    const headers =  new Headers();
+    String(xhr?.getAllResponseHeaders?.()).split('\n').map(x=>{
+    const value = x.split(':');
+    const key = String(value.shift()).trim();
+    return [key,value.join(':').trim()];
+    }).filter(x=>x[0]).forEach(x=>{
+    try{
+      headers.append(x[0],x[1]);
+      }catch{}
+    });
+    return headers;
+  }
+
+
+  function uint8ToBase64(uint8Array){
+               const body = Array(uint8Array.length);
+               for (let i = 0; i < uint8Array.length; i++){
+                 body[i] = String.fromCharCode(uint8Array[i]);
+               }
+    return btoa(body.join(''));
+  }
+
+  function base64ToUint8(base64){
+    const binaryString = atob(res.body);
+    const uint8Array = new Uint8Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+      uint8Array[i] = binaryString.charCodeAt(i);
+    }
+    return uint8Array;
+  }
+  
+  const xhrToBase64 = async (xhr) => {
+    let arrayBuffer;
+    try {
+      if (xhr.responseType == 'document') {
+            arrayBuffer  = buffer(docText(xhr.response));
+      }
+      if (typeof xhr.response == 'arrayBuffer') {
+            arrayBuffer = xhr.response;
+      }
+      if (typeof xhr.response == 'json') {
+          arrayBuffer =  buffer(JSON.stringify(xhr.response));
+      }
+      if (typeof xhr.response == 'blob') {
+          arrayBuffer = await xhr.response.arrayBuffer();
+      }
+      if(!arrayBuffer) arrayBuffer = buffer(xhr.responseText || xhr.statusText);
+    } catch (e) {
+      console.warn(e, this, ...arguments);
+      arrayBuffer =  buffer(e.message);
+    }
+    const uint8Array = pako.deflate(new Uint8Array(arrayBuffer));
+    const res = {
+      headers: xhrHeaders(xhr),
+      status: xhr.status,
+      body: uint8ToBase64(uint8Array)
+    };
+    return superjson.stringify(res);
+  };
+
+  const base64ToURI = (serializedResponse) => {
+    const res = superjson.parse(serializedResponse);
+    return `data:${String(res.headers.get('content-type')).split(';').shift()};base64,${pako.inflate(base64ToUint8(res.body))}`;
+  };
