@@ -1,12 +1,7 @@
 (async () => {
   async function importScript(url) {
-    try {
-      return await import(url);
-    } catch {
       return eval?.call(globalThis, await (await fetch(url)).text());
-    }
   }
-
   await Promise.all([
     importScript(
       `https://cdn.jsdelivr.net/npm/pako/dist/pako.min.js?${new Date().getTime()}`,
