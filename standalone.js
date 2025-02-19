@@ -1,10 +1,14 @@
 (async () => {
   async function importScript(url) {
-      return eval?.call(globalThis, await (await fetch(url)).text());
+      try{
+        return await import(url);
+      }catch{
+        return eval?.call(globalThis, await (await fetch(url)).text()); 
+      }
   }
   await Promise.all([
     importScript(
-      `https://cdn.jsdelivr.net/npm/pako/dist/pako.min.js?${new Date().getTime()}`,
+      `https://cdn.jsdelivr.net/npm/pretty-pako/pretty-pako.js?${new Date().getTime()}`,
     ),
     importScript(
       `https://cdn.jsdelivr.net/npm/superjson-bundle@1.0.7/dist/superjson.js?${new Date().getTime()}`,
