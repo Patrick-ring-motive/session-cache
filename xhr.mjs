@@ -453,11 +453,19 @@ import './index.mjs';
 
     globalThis.xhrSessionCache = {
       async set(key, value) {
-        return sessionStorage.setItem(key, await xhrToBase64(value));
+        try{
+          return sessionStorage.setItem(key, await xhrToBase64(value));
+        }catch(e){
+          console.warn(e,...arguemnts);
+        }
       },
       get(key) {
-        const value = sessionStorage.getItem(key);
-        if (value) return base64ToURI(value);
+        try{
+          const value = sessionStorage.getItem(key);
+          if (value) return base64ToURI(value);
+        }catch(e){
+          console.warn(e,...arguemnts);
+        }
       },
       delete(key) {
         return sessionStorage.removeItem(key);

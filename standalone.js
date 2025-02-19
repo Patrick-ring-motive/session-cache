@@ -99,29 +99,6 @@
 
     globalThis.superjson = superjson;
 
-    globalThis.storedVariables = {
-      set(key, value) {
-        return localStorage.setItem(key, superjson.stringify(value));
-      },
-      get(key) {
-        return superjson.parse(localStorage.getItem(key));
-      },
-      delete(key) {
-        return localStorage.removeItem(key);
-      }
-    };
-
-    globalThis.sessionVariables = {
-      set(key, value) {
-        return sessionStorage.setItem(key, superjson.stringify(value));
-      },
-      get(key) {
-        return superjson.parse(sessionStorage.getItem(key));
-      },
-      delete(key) {
-        return sessionStorage.removeItem(key);
-      }
-    };
 
     const responseToBase64 = async (response) => {
       const arrayBuffer = await response.arrayBuffer();
@@ -154,11 +131,19 @@
 
     globalThis.sessionCache = {
       async set(key, value) {
-        return sessionStorage.setItem(key, await responseToBase64(value));
+        try{
+          return sessionStorage.setItem(key, await responseToBase64(value));
+        }catch(e){
+          console.warn(e,...arguments);
+        }
       },
       get(key) {
-        const value = sessionStorage.getItem(key);
-        if (value) return base64ToResponse(value);
+        try{
+          const value = sessionStorage.getItem(key);
+          if (value) return base64ToResponse(value);
+        }catch(e){
+          console.warn(e,...arguments);
+        }
       },
       delete(key) {
         return sessionStorage.removeItem(key);
@@ -652,11 +637,19 @@
 
     globalThis.xhrSessionCache = {
       async set(key, value) {
-        return sessionStorage.setItem(key, await xhrToBase64(value));
+        try{
+          return sessionStorage.setItem(key, await xhrToBase64(value));
+        }catch(e){
+          console.warn(e,...arguemnts);
+        }
       },
       get(key) {
-        const value = sessionStorage.getItem(key);
-        if (value) return base64ToURI(value);
+        try{
+          const value = sessionStorage.getItem(key);
+          if (value) return base64ToURI(value);
+        }catch(e){
+          console.warn(e,...arguemnts);
+        }
       },
       delete(key) {
         return sessionStorage.removeItem(key);

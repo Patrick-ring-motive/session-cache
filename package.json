@@ -1,6 +1,6 @@
 {
-  "name": "session-cache",
-  "version": "1.0.1",
+  "name": "http-session-cache",
+  "version": "1.0.4",
   "description": "",
   "main": "standalone.js",
   "scripts": {

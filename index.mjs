@@ -136,16 +136,25 @@ const base64ToResponse = (serializedResponse) => {
 
 globalThis.sessionCache = {
   async set(key, value) {
-    return sessionStorage.setItem(key, await responseToBase64(value));
+    try{
+      return sessionStorage.setItem(key, await responseToBase64(value));
+    }catch(e){
+      console.warn(e,...arguments);
+    }
   },
   get(key) {
-    const value = sessionStorage.getItem(key);
-    if (value) return base64ToResponse(value);
+    try{
+      const value = sessionStorage.getItem(key);
+      if (value) return base64ToResponse(value);
+    }catch(e){
+      console.warn(e,...arguments);
+    }
   },
   delete(key) {
     return sessionStorage.removeItem(key);
   }
 };
+
 
 globalThis.cacheFetch = async function() {
   const req = new Request(...arguments);
