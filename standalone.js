@@ -1,4 +1,20 @@
 (async () => {
+  let importCache =  caches.open("http-session-cache");
+  async function importFromCache(url){
+    if(importCache instanceof Promise)importCache = await importCache;
+    let res = await importCache.match(url);
+    if(res instanceof Response){
+      res.clone();
+    }else{
+      res = await fetch(url);
+      putCache(url,res.clone());
+    }
+    return eval?.call(globalThis, await res.text());
+  }
+  async function putCache(url,res){
+    const cache = await importCache;
+    if(res instanceof Response && res.status === 200)cache.put(url,res.clone());
+  }
   async function importScript(url) {
       try{
         return await import(url);
@@ -7,11 +23,11 @@
       }
   }
   await Promise.all([
-    importScript(
-      `https://cdn.jsdelivr.net/npm/pretty-pako/pretty-pako.js?${new Date().getTime()}`,
+    importFromCache(
+      `https://cdn.jsdelivr.net/npm/pretty-pako/pretty-pako.js`,
     ),
-    importScript(
-      `https://cdn.jsdelivr.net/npm/superjson-bundle@1.0.7/dist/superjson.js?${new Date().getTime()}`,
+    importFromCache(
+      `https://cdn.jsdelivr.net/npm/superjson-bundle@1.0.7/dist/superjson.js`,
     ),
   ]);
 
@@ -109,6 +125,7 @@
       const res = {
         headers: response.headers,
         status: response.status,
+        url:response.url,
         body: btoa(body.join(''))
       };
       return superjson.stringify(res);
@@ -121,11 +138,12 @@
       for (let i = 0; i < binaryString.length; i++) {
         uint8Array[i] = binaryString.charCodeAt(i);
       }
-      return new Response(pako.inflate(uint8Array), {
+      return Object.defineProperty(new Response(pako.inflate(uint8Array), {
         status: res.status,
-        headers: res.headers
-      });
+        headers: res.headers,
+      }),'url',{value:String(res.url),enumerable:true,configurable:true,writable:true,writeable:true});
     };
+
 
 
     globalThis.sessionCache = {
