@@ -1,6 +1,6 @@
+(()=>{
 
-
-(async () => {
+let init = (async () => {
   let importCache =  caches.open("http-session-cache");
   async function importFromCache(url){
     if(importCache instanceof Promise)importCache = await importCache;
@@ -167,6 +167,7 @@
         return sessionStorage.removeItem(key);
       }
     };
+})();
 
 
     (()=>{
@@ -175,6 +176,9 @@
       globalThis[$fetch] = _fetch;
       globalThis.fetch = Object.setPrototypeOf(async function fetch(url,options){
         try{
+          if(init instanceof Promise){
+            init = await init;
+          }
           const req = new Request(...arguments);
           if (req.method === 'GET') {
             const res = self?.sessionCache?.get?.(req.url);
