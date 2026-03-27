@@ -10,8 +10,7 @@ module.exports = {
     clean: true, // cleans old files in dist on rebuild
   },
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.css$/i, // loader for CSS files
         use: ["style-loader", "css-loader"],
       },
@@ -22,10 +21,10 @@ module.exports = {
           loader: "babel-loader", // transpile modern JavaScript for compatibility
           options: {
             presets: ["@babel/preset-env"],
-            plugins:[
+            plugins: [
               "@babel/plugin-transform-arrow-functions",
               "@babel/plugin-transform-block-scoping"
-              ]
+            ]
           },
         },
       },
